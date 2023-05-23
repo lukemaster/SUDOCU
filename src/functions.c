@@ -137,9 +137,12 @@ int file(int g[9][9], char argv[1]) {
    } else {
       for (i = 0; i < 9; i++) {
          for (j = 0; j < 9; j++) {
-            fscanf(text, "%d", & g[i][j]);
-            if (g[i][j] > 9 || g[i][j] < 0) {
-               data = 0;
+            if(fscanf(text, "%d", &g[i][j]) != 0){
+               if (g[i][j] > 9 || g[i][j] < 0) {
+                  data = 0;
+               }
+            } else {
+               return 0;
             }
          }
       }

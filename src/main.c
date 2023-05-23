@@ -25,7 +25,7 @@
 
 int main(int argc, char * argv[]) {
    unsigned long int execution = 0;
-   int gpreprimitive[9][9], sorting = 1, e_equal, sorting_change = 0, p = 0, d = 0, j, gprimitive[9][9], i, finnish = 0, g[9][9], ve[2][9], m1[3][3], m2[3][3], m3[3][3], m4[3][3], m5[3][3], m6[3][3], m7[3][3], m8[3][3], m9[3][3];
+   int gpreprimitive[9][9], sorting = 1, e_equal, sorting_change = 0, p = 0, d = 0, j, gprimitive[9][9], i, finished = 0, g[9][9], ve[2][9], m1[3][3], m2[3][3], m3[3][3], m4[3][3], m5[3][3], m6[3][3], m7[3][3], m8[3][3], m9[3][3];
    char answer;
    int forced_solutions = 0;
    int is_solved = 0;
@@ -43,14 +43,16 @@ int main(int argc, char * argv[]) {
          printf("\nThis program is dedicated to every people who, with determination and perseverance, helped me to smooth out my rough edges and problems with C language.\n");
       }
       if ((file(g, argv[1])) == 1) {
-         while (finnish != 1) {
+         while (finished != 1) {
             printf("\n\n\t\\\\\\\\ ****        WELCOME TO SUDOKU SOLVER          **** \\\\\\\\");
             printf("\n\n\t\\\\\\\\ ****               GPL LICENSE                **** \\\\\\\\");
             printf("\n\n\n\n\n\n");
             show_matrix(g);
             printf("\nIs the following sudoku which you want to be solved?\n");
             printf("\n[y/n]\n");
-            scanf("%c", & answer);
+            if(scanf("%c", & answer) != 1){
+               answer = 'n';
+            }
             printf("\n");
             if (answer == 'n' || answer == 'N' || (answer != 'Y' && answer != 'y')) {
                printf("\n\n\n\n\n");
@@ -60,11 +62,11 @@ int main(int argc, char * argv[]) {
             }
             algorithm(gprimitive, g, ve, m1, m2, m3, m4, m5, m6, m7, m8, m9);
             if (is_full_matrix(g) == 1) {
-               finnish = 1;
+               finished = 1;
             } else {
                sort_array_desc(ve, 9);
                printf("\n\nMaybe it is a multi solution sudoku. I'm goint to force it 'cleverly'...\n\n");
-               while (finnish != 1) {
+               while (finished != 1) {
                   for (i = 0; i < 9; i++) {
                      for (j = 0; j < 9; j++) {
                         gpreprimitive[i][j] = gprimitive[i][j] = g[i][j];
@@ -74,7 +76,7 @@ int main(int argc, char * argv[]) {
                      d = 0;
                      p++;
                   }
-                  finnish = solver(sorting, p, &d, ve, g, m1, m2, m3, m4, m5, m6, m7, m8, m9);
+                  finished = solver(sorting, p, &d, ve, g, m1, m2, m3, m4, m5, m6, m7, m8, m9);
                   d++;
                   e_equal = 0;
                   for (i = 0; i < 9; i++) {
@@ -96,7 +98,7 @@ int main(int argc, char * argv[]) {
                      p = 0;
                      d = 0;
                   }
-                  if (finnish != 1) {
+                  if (finished != 1) {
                      for (i = 0; i < 9; i++) {
                         for (j = 0; j < 9; j++) {
                            g[i][j] = gpreprimitive[i][j];
@@ -107,7 +109,7 @@ int main(int argc, char * argv[]) {
                   if (execution == 300 /*4294967295*/ ) { 
                      //THIS CONDITIONAL IS DUE TO PROBLEM PROPOSED COULD BE WRONG, 
                      //OR THERE WAS AN ERROR DURING PROGRAM EXECUTION, ENTERING IT IN A INFINITE LOOP
-                     finnish = 1;
+                     finished = 1;
                      m1[0][0] = 1;
                      m1[0][1] = 1;
                   }
@@ -144,17 +146,21 @@ int main(int argc, char * argv[]) {
             printf("\nforced_solutions %d\n",forced_solutions);
             if(forced_solutions <= 0) {
                answer = 'a';
-               finnish = 0;
+               finished = 0;
                printf("\nMaybe, there are more solutions for this sudoku; do you want I'll try to find more solutions for this?\n");
                printf("\n[y/n]\n");
                getchar();
-               scanf("%c", & answer);
-               if (answer == 'n' || answer == 'N' || (answer != 'Y' && answer != 'y')) {
-                  finnish = 1;
+               if(scanf("%c", & answer) != 0){
+                  if (answer == 'n' || answer == 'N' || (answer != 'Y' && answer != 'y')) {
+                     finished = 1;
+                  }
+                  if (finished != 1) {
+                     forced_solutions = super_super_force(gprimitive,m1,m2,m3,m4,m5,m6,m7,m8,m9,g);
+                  }
+               } else {
+                  finished = 1;
                }
-               if (finnish != 1) {
-                  forced_solutions = super_super_force(gprimitive,m1,m2,m3,m4,m5,m6,m7,m8,m9,g);
-               }
+
             }
             printf("\n\n\n\n\n");
             printf("\t\\\\\\\\ **** THANK YOU FOR USING THIS PROGRAM **** \\\\\\\\\n");
