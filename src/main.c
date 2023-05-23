@@ -143,7 +143,6 @@ int main(int argc, char * argv[]) {
                printf("\n\n\n");
                show_matrix(g);
             }
-            printf("\nforced_solutions %d\n",forced_solutions);
             if(forced_solutions <= 0) {
                answer = 'a';
                finished = 0;

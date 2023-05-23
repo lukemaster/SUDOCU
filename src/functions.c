@@ -1021,7 +1021,7 @@ int load_base_arr(int g[9][9], int row_eval, struct candidate_solution* base[9])
 
       permutation(g,arr,g[row_eval],0, 9-1, row_eval,&base[k],&base_sol_number);
    }
-
+   arr = NULL;
    free(arr);
 
    return base_sol_number;
@@ -1044,6 +1044,8 @@ int super_super_force(int g[9][9], int m1[3][3], int m2[3][3], int m3[3][3], int
    int g_part[9][9];
    struct candidate_solution *tmp0, *tmp1, *tmp2, *tmp3, *tmp4, *tmp5, *tmp6, *tmp7, *tmp8;
    int match = 1, solutions = 0;
+
+   tmp0 = tmp1 = tmp2= tmp3 = tmp4 = tmp5 = tmp6 = tmp7 = tmp8 = NULL;
 
    for (i = 0; i < 9; i++) {
       for (j = 0; j < 9; j++) {
@@ -1248,6 +1250,7 @@ int super_super_force(int g[9][9], int m1[3][3], int m2[3][3], int m3[3][3], int
       tmp0 = base[i];
       while(tmp0 != NULL){
          tmp1 = tmp0->next;
+         tmp0 = NULL;
          free(tmp0);
          tmp0 = tmp1;
       }
@@ -1259,6 +1262,8 @@ int super_super_force(int g[9][9], int m1[3][3], int m2[3][3], int m3[3][3], int
 int solver(int sorting, int p, int * d, int ve[2][9], int g[9][9], int m1[3][3], int m2[3][3], int m3[3][3], int m4[3][3], int m5[3][3], int m6[3][3], int m7[3][3], int m8[3][3], int m9[3][3]) {
    int cycles_without_any_change = 0, change = 1, previous_without_be_assigned=0, cycles = 0, exit = 0, gp[9][9], nelements[2][9], elements_nassigned[2][9], rlimsup, rliminf, climsup, climinf, els_without_be_assigned, *tryers, i, j;
   
+   tryers = NULL;
+
    while (exit != 1) {
       for (i = 0; i < 9; i++) {
          for (j = 0; j < 9; j++) {
@@ -1375,6 +1380,7 @@ int solver(int sorting, int p, int * d, int ve[2][9], int g[9][9], int m1[3][3],
                exit = 1;
             }
          }
+         tryers = NULL;
          free(tryers);
          if (els_without_be_assigned == 1) {
             cycles++;
