@@ -62,7 +62,7 @@ Array of frequency would be:
 |    8     |        3      |
 |    9     |        5      |
 
-Sorting this array by times repeated:
+Sorting this array by frequency:
 
 | Number   |   Frequency   |
 |:--------:|:-------------:|
